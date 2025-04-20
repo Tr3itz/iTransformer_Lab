@@ -2,7 +2,7 @@
 Repository for Statistical Learning laboratory on **iTransformer**. This is a shortened version of the [original repository](https://github.com/thuml/iTransformer) focusing only on the implementation of the iTransformer architecture.
 
 # Datasets
-You can download the datasets from [here](https://drive.google.com/file/d/1l51QsKvQPcqILT3DwfjCgx8Dsg2rpjot/view)
+You can download the datasets from [here](https://drive.google.com/file/d/1l51QsKvQPcqILT3DwfjCgx8Dsg2rpjot/view).
 
 # Setup
 1. Install [miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install#quickstart-install-instructions)
