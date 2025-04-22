@@ -1,3 +1,12 @@
 # Ingnore datasets 
 *.zip
 dataset
+
+# Ignore results
+results
+test_results
+checkpoints
+result_long_term_forecast.txt
+
+# Ignore __pycache__
+**/__pycache__/
