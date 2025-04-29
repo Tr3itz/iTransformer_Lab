@@ -13,9 +13,6 @@ python -u run.py \
   --seq_len 96 \
   --pred_len 96 \
   --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
   --des 'Exp' \
   --d_model 128 \
   --d_ff 128 \
@@ -32,9 +29,6 @@ python -u run.py \
   --seq_len 96 \
   --pred_len 192 \
   --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
   --des 'Exp' \
   --d_model 128 \
   --d_ff 128 \
@@ -51,9 +45,6 @@ python -u run.py \
   --seq_len 96 \
   --pred_len 336 \
   --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
   --des 'Exp' \
   --d_model 128 \
   --d_ff 128 \
@@ -70,9 +61,6 @@ python -u run.py \
   --seq_len 96 \
   --pred_len 720 \
   --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
   --des 'Exp' \
   --d_model 128 \
   --d_ff 128 \
