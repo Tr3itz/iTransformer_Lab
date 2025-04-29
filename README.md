@@ -12,7 +12,7 @@ Datasets contain observations of two Electricity Transformers at two different s
 In each file, the observed variables are:
 | **date** | **HUFL** | **HULL** | **MUFL** | **MULL** | **LUFL** | **LULL** | **OT** |
 |:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:--------:|:------:|
-| date of observation | High Useful Load | High Useless Load | Middle Useful Load | Middle Useless Load | Low Useful Load | Low Useless Load | Oil Temperature (Target) |
+| timestamp of observation | High Useful Load | High Useless Load | Middle Useful Load | Middle Useless Load | Low Useful Load | Low Useless Load | Oil Temperature (Target) |
 
 For hourly-level files there are a total of 17,420 observations, while for minute by minute files thre are 69,680 observations.
 
