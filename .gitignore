@@ -1,7 +1,3 @@
-# Ingnore datasets 
-*.zip
-dataset
-
 # Ignore results
 results
 test_results

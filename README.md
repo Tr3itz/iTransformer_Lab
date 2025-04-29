@@ -19,19 +19,19 @@ Repository for Statistical Learning laboratory on **iTransformer**. This is a sh
    ```
 
 # Experiments
-In the folder `./scripts` you can find a series of bash scripts for performing experiment on the different datasets. 
+In the folder `./scripts` you can find a series of bash scripts for performing experiments. 
 
 ## Launch bash scripts
 In order to launch an experiment, run the following commands from the terminal in the main direcory:
 ```console
-chmod +x scripts/<dataset>/<script_to_launch>.sh # you may need to give permissions to the file for being executed
-bash scripts/<dataset>/<script_to_launch>.sh
+chmod +x scripts/<script_to_launch>.sh # you may need to give permissions to the file for being executed
+bash scripts/<script_to_launch>.sh
 ```
 
 For example, suppose you want to run an experiment on the variant `h1` of the `ETT` dataset:
 ```console
-chmod +x scripts/ETT/iTransformers_ETTh1.sh
-bash ./scripts/ETT/iTransformers_ETTh1.sh
+chmod +x scripts/iTransformers_ETTh1.sh
+bash ./scripts/iTransformers_ETTh1.sh
 ```
 
 ## Launch with Python
@@ -39,7 +39,7 @@ If you want to run one single experiment on a dataset, you can also run directly
 ```console
 python -u run.py \
   --is_training 1 \
-  --root_path ./dataset/ETT-small/ \
+  --root_path ./dataset/ \
   --data_path ETTh1.csv \
   --model_id ETTh1_96_96 \
   --model iTransformer \
