@@ -58,9 +58,6 @@ python -u run.py \
   --seq_len 192 \
   --pred_len 96 \
   --e_layers 2 \
-  --enc_in 7 \
-  --dec_in 7 \
-  --c_out 7 \
   --des 'Exp' \
   --d_model 256 \
   --d_ff 256 \
