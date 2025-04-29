@@ -1,10 +1,15 @@
 # iTransformer Lab
 Repository for Statistical Learning laboratory on **iTransformer**. This is a shortened version of the [original repository](https://github.com/thuml/iTransformer) focusing only on the implementation of the iTransformer architecture.
 
-# Datasets
-1. Download the datasets from [here](https://drive.google.com/file/d/1l51QsKvQPcqILT3DwfjCgx8Dsg2rpjot/view)
-2. Extract the `.zip` file and move it in the main directory (this directory)
-3. Rename the datasets folder from `iTransformer_datasets` to `dataset`
+# Dataset
+In the folder `dataset` you can find 4 `.csv` files, which are 4 variants of the of the **Electricity Transformer Temperature** dataset (**ETT**).
+
+## Description
+Datasets contain observations of two Electricity Transformers at two different stations in China. Depending on the variant, you will find two different granularities of observations:
+* _hourly_ observations for `ETTh1.csv` and `ETTh2.csv`
+* _minute by minute_ observations for `ETTm1.csv` and `ETTm2.csv`
+
+For hourly-level files there are a total of 17,420 observations, while for minute by minute files thre are 69,680 observations.
 
 # Setup
 1. Install [miniconda](https://www.anaconda.com/docs/getting-started/miniconda/install#quickstart-install-instructions)
