@@ -159,5 +159,12 @@ if __name__ == '__main__':
 
         exp = Exp(args)  # set experiments
         print('>>>>>>>testing : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
+        test_start = timer() # Timer
         exp.test(setting, test=1)
+        test_time = timer() - test_start
+
+        # Exp time
+        h, m, s = seconds_to_ts(test_time)
+        print(f'Experiment time: {h} hours {m} minutes and {s} seconds.\n')
+
         torch.cuda.empty_cache()
