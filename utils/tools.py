@@ -2,7 +2,9 @@ import os
 
 import numpy as np
 import torch
+import matplotlib; matplotlib.use('agg')
 import matplotlib.pyplot as plt
+import seaborn as sns
 import pandas as pd
 
 plt.switch_backend('agg')
@@ -85,6 +87,28 @@ def visual(true, preds=None, name='./pic/test.pdf'):
         plt.plot(preds, label='Prediction', linewidth=2)
     plt.legend()
     plt.savefig(name, bbox_inches='tight')
+    plt.close()
+
+
+def visualize_attns(attns, step, path):
+    """
+    Visualize attention matirces
+    """
+    for i in range(1, len(attns) + 1):
+        folder = path + f'e_layer_{i}/'
+        attn = attns[i - 1][0]
+        attn = attn.detach().cpu().numpy()
+
+        fig = plt.figure(figsize=[20,20])
+        fig.suptitle(f'Encoder Layer {i} attention matrices (step={step})')
+
+        for idx, a_head in enumerate(attn):
+            ax = fig.add_subplot(3, 3, idx+1)
+            ax.set_title(f'Head {idx+1}')
+            sns.heatmap(a_head, ax=ax)
+        
+        fig.savefig(folder + f'{step}.png', format='png')
+        plt.close(fig)
 
 
 def adjustment(gt, pred):
@@ -113,3 +137,15 @@ def adjustment(gt, pred):
 
 def cal_accuracy(y_pred, y_true):
     return np.mean(y_pred == y_true)
+
+
+def seconds_to_ts(seconds: int):
+    # Hours
+    hours = seconds // 3600
+    seconds = seconds % 3600
+
+    # Minutes
+    minutes = seconds // 60 
+    seconds = seconds % 60
+    
+    return int(hours), int(minutes), int(seconds)

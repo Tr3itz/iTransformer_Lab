@@ -3,6 +3,8 @@ import torch
 from exp_long_term_forecasting import Exp_Long_Term_Forecast
 import random
 import numpy as np
+from timeit import default_timer as timer
+from utils.tools import seconds_to_ts
 
 if __name__ == '__main__':
     fix_seed = 2023
@@ -94,7 +96,6 @@ if __name__ == '__main__':
     # MTSF: multivariate time series forecasting
     Exp = Exp_Long_Term_Forecast
 
-
     if args.is_training:
         for ii in range(args.itr):
             # setting record of experiments
@@ -118,10 +119,18 @@ if __name__ == '__main__':
 
             exp = Exp(args)  # set experiments
             print('>>>>>>>start training : {}>>>>>>>>>>>>>>>>>>>>>>>>>>'.format(setting))
+            train_start = timer() # Timer
             exp.train(setting)
+            train_time = timer() - train_start
 
             print('>>>>>>>testing : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
+            test_start = timer() # Timer
             exp.test(setting)
+            test_time = timer() - test_start
+
+            # Exp time
+            h, m, s = seconds_to_ts(train_time + test_time)
+            print(f'Experiment time: {h} hours {m} minutes and {s} seconds.\n')
 
             if args.do_predict:
                 print('>>>>>>>predicting : {}<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<'.format(setting))
