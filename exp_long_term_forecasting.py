@@ -73,14 +73,14 @@ class Exp_Long_Term_Forecast():
                         if self.args.output_attention:
                             # attns - List of attention tensors of length e_layers
                             # Attention tensor shape: [B, H, N, N] with H = #attn_heads
-                            outputs, attns = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                            outputs, _ = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                         else:
                             outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
                     if self.args.output_attention:
                         # attns - List of attention tensors of length e_layers
                         # Attention tensor shape: [B, H, N, N] with H = #attn_heads
-                        outputs, attns = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                        outputs, _ = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                     else:
                         outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 f_dim = -1 if self.args.features == 'MS' else 0
@@ -145,7 +145,7 @@ class Exp_Long_Term_Forecast():
                         if self.args.output_attention:
                             # attns - List of attention tensors of length e_layers
                             # Attention tensor shape: [B, H, N, N] with H = #attn_heads
-                            outputs, attns = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                            outputs, _ = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                         else:
                             outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
 
@@ -158,7 +158,7 @@ class Exp_Long_Term_Forecast():
                     if self.args.output_attention:
                         # attns - List of attention tensors of length e_layers
                         # Attention tensor shape: [B, H, N, N] with H = #attn_heads
-                        outputs, attns = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                        outputs, _ = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                     else:
                         outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
 
@@ -198,8 +198,6 @@ class Exp_Long_Term_Forecast():
 
             adjust_learning_rate(model_optim, epoch + 1, self.args)
 
-            # get_cka(self.args, setting, self.model, train_loader, self.device, epoch)
-
         best_model_path = path + '/' + 'checkpoint.pth'
         self.model.load_state_dict(torch.load(best_model_path))
 
@@ -211,19 +209,26 @@ class Exp_Long_Term_Forecast():
             print('loading model')
             self.model.load_state_dict(torch.load(os.path.join('./checkpoints/' + setting, 'checkpoint.pth')))
 
-        preds = []
-        trues = []
-        folder_path = './test_results/' + setting + '/'
-        preds_path = folder_path + 'preds/'
-        attns_path = folder_path + 'attns/'
+        folder_path = './test_results/' + setting + '/' # Path to experiment results
+        preds_path = folder_path + 'preds/'             # Path to time-series forecasting images
+        metrics_path = folder_path + 'metrics/'         # Path to experiment quantitative results
+        attns_path = folder_path + 'attns/'             # Path to attention matrices images
+        # Create experiment folder
         if not os.path.exists(folder_path):
             os.makedirs(folder_path)
+        # Create results folders
+        if not os.path.exists(preds_path):
             os.mkdir(preds_path)
-            if self.args.output_attention:
+        if not os.path.exists(metrics_path):
+            os.mkdir(metrics_path)
+        if self.args.output_attention:
+            if not os.path.exists(attns_path): 
                 os.mkdir(attns_path)
                 for i in range(1, self.args.e_layers + 1):
                     os.mkdir(attns_path + f'e_layer_{i}/')
 
+        preds = []
+        trues = []
         self.model.eval()
         with torch.no_grad():
             for i, (batch_x, batch_y, batch_x_mark, batch_y_mark) in enumerate(test_loader):
@@ -279,7 +284,7 @@ class Exp_Long_Term_Forecast():
                         input = test_data.inverse_transform(input.squeeze(0)).reshape(shape)
                     gt = np.concatenate((input[0, :, -1], true[0, :, -1]), axis=0)
                     pd = np.concatenate((input[0, :, -1], pred[0, :, -1]), axis=0)
-                    visual(gt, pd, os.path.join(preds_path, str(i) + '.pdf'))
+                    visual(gt, pd, os.path.join(preds_path, str(i) + '.png'))
                     if self.args.output_attention:
                         visualize_attns(attns, i, attns_path)
 
@@ -291,11 +296,7 @@ class Exp_Long_Term_Forecast():
         trues = trues.reshape(-1, trues.shape[-2], trues.shape[-1])
         print('test shape:', preds.shape, trues.shape)
 
-        # result save
-        folder_path = './results/' + setting + '/'
-        if not os.path.exists(folder_path):
-            os.makedirs(folder_path)
-
+        # Save experiments results
         mae, mse, rmse, mape, mspe = metric(preds, trues)
         print('mse:{}, mae:{}'.format(mse, mae))
         f = open("result_long_term_forecast.txt", 'a')
@@ -305,9 +306,9 @@ class Exp_Long_Term_Forecast():
         f.write('\n')
         f.close()
 
-        np.save(folder_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
-        np.save(folder_path + 'pred.npy', preds)
-        np.save(folder_path + 'true.npy', trues)
+        np.save(metrics_path + 'metrics.npy', np.array([mae, mse, rmse, mape, mspe]))
+        np.save(metrics_path + 'pred.npy', preds)
+        np.save(metrics_path + 'true.npy', trues)
 
         return
 
@@ -339,14 +340,14 @@ class Exp_Long_Term_Forecast():
                         if self.args.output_attention:
                             # attns - List of attention tensors of length e_layers
                             # Attention tensor shape: [B, H, N, N] with H = #attn_heads
-                            outputs, attns = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                            outputs, _ = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                         else:
                             outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 else:
                     if self.args.output_attention:
                         # attns - List of attention tensors of length e_layers
                         # Attention tensor shape: [B, H, N, N] with H = #attn_heads
-                        outputs, attns = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
+                        outputs, _ = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                     else:
                         outputs = self.model(batch_x, batch_x_mark, dec_inp, batch_y_mark)
                 outputs = outputs.detach().cpu().numpy()

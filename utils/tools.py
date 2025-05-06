@@ -77,17 +77,18 @@ class StandardScaler():
         return (data * self.std) + self.mean
 
 
-def visual(true, preds=None, name='./pic/test.pdf'):
+def visual(true, preds=None, name='./pic/test.png'):
     """
     Results visualization
     """
-    plt.figure()
-    plt.plot(true, label='GroundTruth', linewidth=2)
+    fig = plt.figure()
+    ax = fig.gca()
+    ax.plot(true, label='GroundTruth', linewidth=2)
     if preds is not None:
-        plt.plot(preds, label='Prediction', linewidth=2)
-    plt.legend()
-    plt.savefig(name, bbox_inches='tight')
-    plt.close()
+        ax.plot(preds, label='Prediction', linewidth=2)
+    ax.legend()
+    fig.savefig(name, bbox_inches='tight', format='png')
+    plt.close(fig)
 
 
 def visualize_attns(attns, step, path):
@@ -99,13 +100,13 @@ def visualize_attns(attns, step, path):
         attn = attns[i - 1][0]
         attn = attn.detach().cpu().numpy()
 
-        fig = plt.figure(figsize=[20,20])
+        fig = plt.figure(figsize=[30,20])
         fig.suptitle(f'Encoder Layer {i} attention matrices (step={step})')
 
         for idx, a_head in enumerate(attn):
             ax = fig.add_subplot(3, 3, idx+1)
             ax.set_title(f'Head {idx+1}')
-            sns.heatmap(a_head, ax=ax)
+            sns.heatmap(a_head, annot=True, fmt='.2f', ax=ax)
         
         fig.savefig(folder + f'{step}.png', format='png')
         plt.close(fig)
