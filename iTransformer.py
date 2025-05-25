@@ -33,11 +33,11 @@ class Model(nn.Module):
                     configs.d_ff,
                     dropout=configs.dropout,
                     activation=configs.activation
-                ) for l in range(configs.e_layers)
+                ) for l in range(...) # TODO: Insert the number of attention layers. Siggestion: find it in variable configs
             ],
             norm_layer=torch.nn.LayerNorm(configs.d_model)
         )
-        self.projector = nn.Linear(configs.d_model, configs.pred_len, bias=True)
+        self.projector = nn.Linear(..., ..., bias=True) # TODO: Insert the model dimension in the firstargument and the prediction length in the second argument. Suggestion: find them in variable configs
 
     def forecast(self, x_enc, x_mark_enc, x_dec, x_mark_dec):
         if self.use_norm:

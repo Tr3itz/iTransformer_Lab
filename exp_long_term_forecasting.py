@@ -117,7 +117,7 @@ class Exp_Long_Term_Forecast():
         if self.args.use_amp:
             scaler = torch.cuda.amp.GradScaler()
 
-        for epoch in range(self.args.train_epochs):
+        for epoch in range(...): # TODO: Insert the number of epochs. Suggestion: find it in self.args
             iter_count = 0
             train_loss = []
 

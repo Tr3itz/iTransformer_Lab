@@ -17,7 +17,7 @@ class FullAttention(nn.Module):
         _, S, _, D = values.shape
         scale = self.scale or 1. / sqrt(E)
 
-        scores = torch.einsum("blhe,bshe->bhls", queries, keys)
+        scores = ... # TODO: compute the product between queries and keys. Suggestion: use the function torch.einsum
 
         ######################### NOT USED BY iTransformer ######################
         # if self.mask_flag:                                                    #
@@ -27,8 +27,8 @@ class FullAttention(nn.Module):
         #     scores.masked_fill_(attn_mask.mask, -np.inf)                      #
         #########################################################################
 
-        A = self.dropout(torch.softmax(scale * scores, dim=-1))
-        V = torch.einsum("bhls,bshd->blhd", A, values)
+        A = ... # TODO: Compute the attention using the scale and the score variables, and then the softmax function. Suggestion: use the torch.softmax function
+        V = ... # TODO: SCompute the product between attention and values. Suggestion: use the function torch.einsum
 
         if self.output_attention:
             return (V.contiguous(), A)

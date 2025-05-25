@@ -4,5 +4,8 @@ test_results
 checkpoints
 result_long_term_forecast.txt
 
+# Ignore test script
+test.sh
+
 # Ignore __pycache__
 **/__pycache__/
